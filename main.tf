@@ -19,9 +19,9 @@ module "openshift" {
   source          = "./modules/openshift"
   region          = "${var.region}"
   //  Smallest that meets the min specs for OS
-  vpc_cidr        = "10.144.0.0/16"
-  bastion_subnet_cidr     = "10.144.1.0/24"
-  private_subnet_cidr     = "10.144.129.0/24"
+  vpc_cidr        = "10.209.0.0/16"
+  bastion_subnet_cidr     = "10.209.1.0/24"
+  private_subnet_cidr     = "10.209.129.0/24"
   key_name        = "personal-openshift-key"
   public_key_path = "${var.public_key_path}"
   cluster_name    = "jch-openshift"

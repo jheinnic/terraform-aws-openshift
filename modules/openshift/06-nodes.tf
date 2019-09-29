@@ -12,6 +12,18 @@ data "template_file" "setup-master" {
   }
 }
 
+// Create Elastic IP for master
+resource "aws_eip" "master_eip" {
+  instance = "${aws_instance.master.id}"
+  vpc      = true
+}
+
+// Create Elastic IP for master (Do not create publicly routable master)
+// resource "aws_eip" "master_eip" {
+//   instance = "${aws_spot_instance_request.master.id}"
+//   vpc      = true
+// }
+
 //  Launch configuration for the consul cluster auto-scaling group.
 resource "aws_spot_instance_request" "master" {
   spot_price                  = var.master_spot_price
@@ -21,7 +33,7 @@ resource "aws_spot_instance_request" "master" {
   ami                  = "${data.aws_ami.rhel7_7.id}"
   # Master nodes require at least 16GB of memory.
   instance_type        = "${var.master_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-master.rendered}"
 
@@ -77,7 +89,7 @@ resource "aws_spot_instance_request" "node1" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
@@ -123,7 +135,7 @@ resource "aws_spot_instance_request" "node2" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
@@ -169,7 +181,7 @@ resource "aws_spot_instance_request" "node3" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
@@ -215,7 +227,7 @@ resource "aws_spot_instance_request" "node4" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
@@ -261,7 +273,7 @@ resource "aws_spot_instance_request" "node5" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
@@ -307,7 +319,7 @@ resource "aws_spot_instance_request" "node6" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
@@ -353,7 +365,7 @@ resource "aws_spot_instance_request" "node7" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
@@ -399,7 +411,7 @@ resource "aws_spot_instance_request" "node8" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 

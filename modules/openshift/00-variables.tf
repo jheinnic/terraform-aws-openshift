@@ -2,6 +2,14 @@ variable "region" {
   description = "The region to deploy the cluster in, e.g: us-east-1."
 }
 
+variable "aws_access_key" {
+  description = ""
+}
+
+variable "aws_secret_key" {
+  description = ""
+}
+
 variable "vpc_cidr" {
   description = "The CIDR block for the VPC, e.g: 10.0.0.0/16"
 }
