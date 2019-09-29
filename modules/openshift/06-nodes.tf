@@ -8,7 +8,7 @@ resource "aws_key_pair" "keypair" {
 data "template_file" "setup-master" {
   template = "${file("${path.module}/files/setup-master.sh")}"
   vars = {
-    availability_zone = "${data.aws_availability_zones.azs.names[0]}"
+    availability_zone = "${data.aws_subnet.private-subnet.availability_zone}"
   }
 }
 
@@ -38,9 +38,7 @@ resource "aws_spot_instance_request" "master" {
   user_data            = "${data.template_file.setup-master.rendered}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
+    "${data.aws_security_group.dataeng-default.id}"
   ]
 
   //  We need at least 30GB for OpenShift, let's be greedy...
@@ -76,7 +74,7 @@ resource "aws_spot_instance_request" "master" {
 data "template_file" "setup-node" {
   template = "${file("${path.module}/files/setup-node.sh")}"
   vars = {
-    availability_zone = "${data.aws_availability_zones.azs.names[0]}"
+    availability_zone = "${data.aws_subnet.private-subnet.availability_zone}"
   }
 }
 
@@ -94,9 +92,7 @@ resource "aws_spot_instance_request" "node1" {
   user_data            = "${data.template_file.setup-node.rendered}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
+    "${data.aws_security_group.dataeng-default.id}"
   ]
 
   //  We need at least 30GB for OpenShift, let's be greedy...
@@ -140,9 +136,7 @@ resource "aws_spot_instance_request" "node2" {
   user_data            = "${data.template_file.setup-node.rendered}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
+    "${data.aws_security_group.dataeng-default.id}"
   ]
 
   //  We need at least 30GB for OpenShift, let's be greedy...

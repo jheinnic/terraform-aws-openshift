@@ -58,13 +58,13 @@ browse-openshift:
 
 # SSH onto the master.
 ssh-bastion:
-	ssh -t -A ec2-user@$$(terraform output bastion-public_ip)
+	ssh -t -A ec2-user@$$(terraform output bastion-private_ip)
 ssh-master:
-	ssh -t -A ec2-user@$$(terraform output bastion-public_ip) ssh master.openshift.local
+	ssh -t -A ec2-user@$$(terraform output bastion-private_ip) ssh master.openshift.local
 ssh-node1:
-	ssh -t -A ec2-user@$$(terraform output bastion-public_ip) ssh node1.openshift.local
+	ssh -t -A ec2-user@$$(terraform output bastion-private_ip) ssh node1.openshift.local
 ssh-node2:
-	ssh -t -A ec2-user@$$(terraform output bastion-public_ip) ssh node2.openshift.local
+	ssh -t -A ec2-user@$$(terraform output bastion-private_ip) ssh node2.openshift.local
 
 # Create sample services.
 sample:
