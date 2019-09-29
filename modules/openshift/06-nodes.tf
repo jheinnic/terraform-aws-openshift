@@ -12,19 +12,23 @@ data "template_file" "setup-master" {
   }
 }
 
-// Create Elastic IP for master
-resource "aws_eip" "master_eip" {
-  instance = "${aws_instance.master.id}"
-  vpc      = true
-}
+// Create Elastic IP for master (Do not create publicly routable master)
+// resource "aws_eip" "master_eip" {
+//   instance = "${aws_spot_instance_request.master.id}"
+//   vpc      = true
+// }
 
 //  Launch configuration for the consul cluster auto-scaling group.
-resource "aws_instance" "master" {
+resource "aws_spot_instance_request" "master" {
+  spot_price                  = var.master_spot_price
+  spot_type                   = "persistent"
+  wait_for_fulfillment        = true
+  instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_5.id}"
   # Master nodes require at least 16GB of memory.
-  instance_type        = "m4.xlarge"
-  subnet_id            = "${aws_subnet.public-subnet.id}"
-  iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
+  instance_type        = "${var.master_instance_type}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
+  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-master.rendered}"
 
   vpc_security_group_ids = [
@@ -67,23 +71,27 @@ data "template_file" "setup-node" {
 }
 
 // Create Elastic IP for the nodes
-resource "aws_eip" "node1_eip" {
-  instance = "${aws_instance.node1.id}"
-  vpc      = true
-}
+// resource "aws_eip" "node1_eip" {
+//   instance = "${aws_spot_instance_request.node1.id}"
+//   vpc      = true
+// }
 
-resource "aws_eip" "node2_eip" {
-  instance = "${aws_instance.node2.id}"
-  vpc      = true
-}
+// resource "aws_eip" "node2_eip" {
+//   instance = "${aws_spot_instance_request.node2.id}"
+//   vpc      = true
+// }
 
 //  Create the two nodes. This would be better as a Launch Configuration and
 //  autoscaling group, but I'm keeping it simple...
-resource "aws_instance" "node1" {
+resource "aws_spot_instance_request" "node1" {
+  spot_price                  = var.node_spot_price
+  spot_type                   = "persistent"
+  wait_for_fulfillment        = true
+  instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_5.id}"
-  instance_type        = "${var.amisize}"
-  subnet_id            = "${aws_subnet.public-subnet.id}"
-  iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
+  instance_type        = "${var.node_instance_type}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
+  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
   vpc_security_group_ids = [
@@ -117,11 +125,15 @@ resource "aws_instance" "node1" {
   )}"
 }
 
-resource "aws_instance" "node2" {
+resource "aws_spot_instance_request" "node2" {
+  spot_price                  = var.node_spot_price
+  spot_type                   = "persistent"
+  wait_for_fulfillment        = true
+  instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_5.id}"
-  instance_type        = "${var.amisize}"
-  subnet_id            = "${aws_subnet.public-subnet.id}"
-  iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
+  instance_type        = "${var.node_instance_type}"
+  subnet_id            = "${data.aws_subnet.private-subnet.id}"
+  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
   vpc_security_group_ids = [

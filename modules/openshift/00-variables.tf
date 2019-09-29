@@ -2,16 +2,24 @@ variable "region" {
   description = "The region to deploy the cluster in, e.g: us-east-1."
 }
 
-variable "amisize" {
-  description = "The size of the cluster nodes, e.g: t2.large. Note that OpenShift will not run on anything smaller than t2.large"
+variable "aws_access_key" {
+  description = ""
+}
+
+variable "aws_secret_key" {
+  description = ""
 }
 
 variable "vpc_cidr" {
   description = "The CIDR block for the VPC, e.g: 10.0.0.0/16"
 }
 
-variable "subnet_cidr" {
-  description = "The CIDR block for the public subnet, e.g: 10.0.1.0/24"
+variable "bastion_subnet_cidr" {
+  description = "Private CIDR block for bastion subnet, e.g: 10.209.1.0/24"
+}
+
+variable "private_subnet_cidr" {
+  description = "Private CIDR block for private subnet, e.g: 10.209.129.0/24"
 }
 
 variable "key_name" {
@@ -28,6 +36,36 @@ variable "cluster_name" {
 
 variable "cluster_id" {
   description = "ID of the cluster, e.g: 'openshift-cluster-us-east-1'. Useful when running multiple clusters in the same AWS account."
+}
+
+variable "master_instance_type" {
+  description = "Master node instance type, e.g: m5.xlarge."
+  default = "m5.xlarge"
+}
+
+variable "master_spot_price" {
+  description = "EC2 instance spot pricing allowance for OpenShift Master Node"
+  default = "0.39"
+}
+
+variable "node_instance_type" {
+  description = "Instance type of other cluster nodes, e.g: t3.large. Note that OpenShift will not run on anything smaller than t3.large"
+  default = "t2.large"
+}
+
+variable "node_spot_price" {
+  description = "EC2 instance spot pricing allowance for OpenShift Compute Nodes"
+  default = "0.34"
+}
+
+variable "bastion_instance_type" {
+  description = "Instance type of installer bastion, e.g: t2.small."
+  default = "t2.small"
+}
+
+variable "bastion_spot_price" {
+  description = "EC2 instance spot pricing allowance for installer bastion"
+  default = "0.33"
 }
 
 data "aws_availability_zones" "azs" {}

@@ -1,7 +1,7 @@
 # Setup our providers so that we have deterministic dependecy resolution. 
 provider "aws" {
+  version = "~> 2.23"
   region  = "${var.region}"
-  version = "~> 2.19"
 }
 
 provider "local" {
@@ -16,22 +16,31 @@ provider "template" {
 module "openshift" {
   source          = "./modules/openshift"
   region          = "${var.region}"
-  amisize         = "t2.large"    //  Smallest that meets the min specs for OS
-  vpc_cidr        = "10.0.0.0/16"
-  subnet_cidr     = "10.0.1.0/24"
-  key_name        = "openshift"
+  //  Smallest that meets the min specs for OS
+  vpc_cidr        = "10.209.0.0/16"
+  bastion_subnet_cidr     = "10.209.1.0/24"
+  private_subnet_cidr     = "10.209.129.0/24"
+  key_name        = "personal-openshift-key"
   public_key_path = "${var.public_key_path}"
-  cluster_name    = "openshift-cluster"
-  cluster_id      = "openshift-cluster-${var.region}"
+  cluster_name    = "jch-openshift"
+  cluster_id      = "jch-openshift-${var.region}"
+  bastion_instance_type = "${var.bastion_instance_type}"
+  bastion_spot_price      = "${var.bastion_spot_price}"
 }
 
 //  Output some useful variables for quick SSH access etc.
 output "master-url" {
-  value = "https://${module.openshift.master-public_ip}.xip.io:8443"
+  value = "https://${module.openshift.master-private_ip}.xip.io:8443"
 }
-output "master-public_ip" {
-  value = "${module.openshift.master-public_ip}"
+output "master-private_ip" {
+  value = "${module.openshift.master-private_ip}"
 }
 output "bastion-public_ip" {
   value = "${module.openshift.bastion-public_ip}"
+output "node1-private_ip" {
+  value = "${module.openshift.node1-private_ip}"
+}
+output "node2-private_ip" {
+  value = "${module.openshift.node2-private_ip}"
+}
 }
