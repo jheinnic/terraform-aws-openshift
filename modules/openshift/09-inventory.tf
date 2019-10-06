@@ -10,6 +10,12 @@ data "template_file" "inventory" {
     master_hostname = "${aws_spot_instance_request.master.private_dns}"
     node1_hostname = "${aws_spot_instance_request.node1.private_dns}"
     node2_hostname = "${aws_spot_instance_request.node2.private_dns}"
+    node3_hostname = "${aws_spot_instance_request.node3.private_dns}"
+    node4_hostname = "${aws_spot_instance_request.node4.private_dns}"
+    node5_hostname = "${aws_spot_instance_request.node5.private_dns}"
+    node6_hostname = "${aws_spot_instance_request.node6.private_dns}"
+    node7_hostname = "${aws_spot_instance_request.node7.private_dns}"
+    node8_hostname = "${aws_spot_instance_request.node8.private_dns}"
     cluster_id = "${var.cluster_id}"
   }
 }

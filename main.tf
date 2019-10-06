@@ -43,4 +43,21 @@ output "node1-private_ip" {
 output "node2-private_ip" {
   value = "${module.openshift.node2-private_ip}"
 }
+output "node3-private_ip" {
+  value = "${module.openshift.node3-private_ip}"
+}
+output "node4-private_ip" {
+  value = "${module.openshift.node4-private_ip}"
+}
+output "node5-private_ip" {
+  value = "${module.openshift.node5-private_ip}"
+}
+output "node6-private_ip" {
+  value = "${module.openshift.node6-private_ip}"
+}
+output "node7-private_ip" {
+  value = "${module.openshift.node7-private_ip}"
+}
+output "node8-private_ip" {
+  value = "${module.openshift.node8-private_ip}"
 }
