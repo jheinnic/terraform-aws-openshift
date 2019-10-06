@@ -116,6 +116,10 @@ resource "aws_spot_instance_request" "node1" {
 
   key_name = "${aws_key_pair.keypair.key_name}"
 
+  provisioner "local-exec" {
+    command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node1.id} ${aws_spot_instance_request.node1.spot_instance_id}"
+  }
+
   //  Use our common tags and add a specific name.
   tags = "${merge(
     local.common_tags,
@@ -157,6 +161,10 @@ resource "aws_spot_instance_request" "node2" {
   }
 
   key_name = "${aws_key_pair.keypair.key_name}"
+
+  provisioner "local-exec" {
+    command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node2.id} ${aws_spot_instance_request.node2.spot_instance_id}"
+  }
 
   //  Use our common tags and add a specific name.
   tags = "${merge(

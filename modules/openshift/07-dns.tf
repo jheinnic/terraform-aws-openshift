@@ -21,7 +21,7 @@ resource "aws_route53_record" "master-a-record" {
     type = "A"
     ttl  = 300
     records = [
-        "${aws_instance.master.private_ip}"
+        "${aws_spot_instance_request.master.private_ip}"
     ]
 }
 resource "aws_route53_record" "node1-a-record" {
@@ -30,7 +30,7 @@ resource "aws_route53_record" "node1-a-record" {
     type = "A"
     ttl  = 300
     records = [
-        "${aws_instance.node1.private_ip}"
+        "${aws_spot_instance_request.node1.private_ip}"
     ]
 }
 resource "aws_route53_record" "node2-a-record" {
@@ -39,6 +39,6 @@ resource "aws_route53_record" "node2-a-record" {
     type = "A"
     ttl  = 300
     records = [
-        "${aws_instance.node2.private_ip}"
+        "${aws_spot_instance_request.node2.private_ip}"
     ]
 }
