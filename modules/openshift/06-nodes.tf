@@ -47,6 +47,10 @@ resource "aws_spot_instance_request" "master" {
 
   key_name = "${aws_key_pair.keypair.key_name}"
 
+  provisioner "local-exec" {
+    command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.master.id} ${aws_spot_instance_request.master.spot_instance_id}"
+  }
+
   //  Use our common tags and add a specific name.
   tags = "${merge(
     local.common_tags,
