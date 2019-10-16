@@ -30,7 +30,7 @@ resource "aws_subnet" "public-subnet" {
   vpc_id                  = "${aws_vpc.openshift.id}"
   cidr_block              = "${var.bastion_subnet_cidr}"
   availability_zone       = "${data.aws_availability_zones.azs.names[0]}"
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
   depends_on              = ["aws_internet_gateway.openshift"]
 
   //  Use our common tags and add a specific name.
