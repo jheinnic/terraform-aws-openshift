@@ -18,7 +18,7 @@ resource "aws_spot_instance_request" "master" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   # Master nodes require at least 16GB of memory.
   instance_type        = "${var.master_instance_type}"
   subnet_id            = "${data.aws_subnet.private-subnet.id}"
@@ -75,7 +75,7 @@ resource "aws_spot_instance_request" "node1" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
   subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
@@ -121,7 +121,7 @@ resource "aws_spot_instance_request" "node2" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
   subnet_id            = "${data.aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
@@ -167,7 +167,7 @@ resource "aws_spot_instance_request" "node3" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
   subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
@@ -213,7 +213,7 @@ resource "aws_spot_instance_request" "node4" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
   subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
@@ -259,7 +259,7 @@ resource "aws_spot_instance_request" "node5" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
   subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
@@ -305,7 +305,7 @@ resource "aws_spot_instance_request" "node6" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
   subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
@@ -351,7 +351,7 @@ resource "aws_spot_instance_request" "node7" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
   subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
@@ -397,7 +397,7 @@ resource "aws_spot_instance_request" "node8" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_5.id}"
+  ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
   subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"

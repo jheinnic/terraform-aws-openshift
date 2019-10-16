@@ -52,6 +52,9 @@ yum update -y
 # Docker. If anyone finds out why, I'd love to know.
 # See: https://forums.aws.amazon.com/thread.jspa?messageID=574126
 yum-config-manager --enable rhui-REGION-rhel-server-extras
+# With RHEL 7.7, the AWS-repo no longer seems to work, but the following Red Hat one does instead...
+yum-config-manager --enable rhel-7-server-rhui-extras-rpms
+
 
 # Docker setup. Check the version with `docker version`, should be 1.12.
 yum install -y docker
