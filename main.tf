@@ -39,6 +39,7 @@ output "master-private_ip" {
 }
 output "bastion-public_ip" {
   value = "${module.openshift.bastion-public_ip}"
+}
 output "node1-private_ip" {
   value = "${module.openshift.node1-private_ip}"
 }
