@@ -2,6 +2,8 @@
 provider "aws" {
   version = "~> 2.23"
   region  = "${var.region}"
+  shared_credentials_file = "/Users/johnheinnickel/.aws/credentials"
+  profile                 = "personal"
 }
 
 provider "local" {
