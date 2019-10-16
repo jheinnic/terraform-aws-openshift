@@ -21,7 +21,7 @@ resource "aws_spot_instance_request" "master" {
   ami                  = "${data.aws_ami.rhel7_7.id}"
   # Master nodes require at least 16GB of memory.
   instance_type        = "${var.master_instance_type}"
-  subnet_id            = "${data.aws_subnet.private-subnet.id}"
+  subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-master.rendered}"
 
@@ -77,7 +77,7 @@ resource "aws_spot_instance_request" "node1" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${data.aws_subnet.private-subnet.id}"
+  subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
@@ -123,7 +123,7 @@ resource "aws_spot_instance_request" "node2" {
   instance_interruption_behaviour = "stop"
   ami                  = "${data.aws_ami.rhel7_7.id}"
   instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${data.aws_subnet.private-subnet.id}"
+  subnet_id            = "${aws_subnet.private-subnet.id}"
   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
   user_data            = "${data.template_file.setup-node.rendered}"
 
