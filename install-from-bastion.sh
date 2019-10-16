@@ -8,7 +8,8 @@ yum install -y "@Development Tools" python2-pip openssl-devel python-devel gcc l
 
 # Get the OKD 3.11 installer.
 pip install -I ansible==2.6.5
-git clone -b release-3.11 https://github.com/openshift/openshift-ansible
+# Expect this to have been pushed by secure file transfer instead
+# git clone -b release-3.11 https://github.com/openshift/openshift-ansible
 
 # # Get the OpenShift 3.10 installer.
 # pip install -I ansible==2.6.5

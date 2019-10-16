@@ -1,0 +1,4 @@
+[submodule "openshift-ansible"]
+	path = openshift-ansible
+	url = https://github.com/teamupstart/openshift-ansible
+	branch = features/jheinnic-upgrade-3.11-patches

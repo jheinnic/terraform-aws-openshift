@@ -18,8 +18,11 @@ openshift:
 	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node7.openshift.local >> ~/.ssh/known_hosts"
 	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node8.openshift.local >> ~/.ssh/known_hosts"
 
-	# Copy our inventory to the master and run the install script.
+	# Copy our inventory and the installer to installation bastion and run instale script there.
+	chmod 755 unzip_stream.sh
 	scp ./inventory.cfg ec2-user@$$(terraform output bastion-public_ip):~
+	scp ./unzip_stream.sh ec2-user@$$(terraform output bastion-public_ip):~
+	(cd ~/Git; tar cf - openshift-ansible | gzip) | ssh ec2-user@$$(terraform output bastion-public_ip) /home/ec2-user/unzip_stream.sh
 	cat install-from-bastion.sh | ssh -o StrictHostKeyChecking=no -A ec2-user@$$(terraform output bastion-public_ip)
 	echo "installed from bastion"
 
