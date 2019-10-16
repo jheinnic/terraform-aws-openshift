@@ -5,7 +5,6 @@ data "template_file" "inventory" {
   vars = {
     access_key = "${aws_iam_access_key.openshift-aws-user.id}"
     secret_key = "${aws_iam_access_key.openshift-aws-user.secret}"
-    public_hostname = "${aws_spot_instance_request.master.private_ip}.xip.io"
     master_inventory = "${aws_spot_instance_request.master.private_dns}"
     master_hostname = "${aws_spot_instance_request.master.private_dns}"
     node1_hostname = "${aws_spot_instance_request.node1.private_dns}"
@@ -16,6 +15,7 @@ data "template_file" "inventory" {
     node6_hostname = "${aws_spot_instance_request.node6.private_dns}"
     node7_hostname = "${aws_spot_instance_request.node7.private_dns}"
     node8_hostname = "${aws_spot_instance_request.node8.private_dns}"
+    public_hostname = "${aws_spot_instance_request.master.private_ip}.nip.io"
     cluster_id = "${var.cluster_id}"
   }
 }
