@@ -64,6 +64,7 @@ output "node8-private_ip" {
 
 output "bastion-public_ip" {
   value = "${aws_eip.bastion_eip.public_ip}"
+  // value = "${aws_spot_instance_request.bastion.public_ip}"
 }
 output "bastion-private_dns" {
   value = "${aws_spot_instance_request.bastion.private_dns}"

@@ -12,12 +12,6 @@ data "template_file" "setup-master" {
   }
 }
 
-// Create Elastic IP for master (Do not create publicly routable master)
-// resource "aws_eip" "master_eip" {
-//   instance = "${aws_spot_instance_request.master.id}"
-//   vpc      = true
-// }
-
 //  Launch configuration for the consul cluster auto-scaling group.
 resource "aws_spot_instance_request" "master" {
   spot_price                  = var.master_spot_price
@@ -69,17 +63,6 @@ data "template_file" "setup-node" {
     availability_zone = "${data.aws_availability_zones.azs.names[0]}"
   }
 }
-
-// Create Elastic IP for the nodes
-// resource "aws_eip" "node1_eip" {
-//   instance = "${aws_spot_instance_request.node1.id}"
-//   vpc      = true
-// }
-
-// resource "aws_eip" "node2_eip" {
-//   instance = "${aws_spot_instance_request.node2.id}"
-//   vpc      = true
-// }
 
 //  Create the two nodes. This would be better as a Launch Configuration and
 //  autoscaling group, but I'm keeping it simple...
