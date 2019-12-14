@@ -1,28 +1,28 @@
 //  Launch configuration for the consul cluster auto-scaling group.
 resource "aws_eip" "bastion_eip" {
-  instance = "${aws_spot_instance_request.bastion.spot_instance_id}"
+  instance = aws_spot_instance_request.bastion.spot_instance_id
   vpc      = true
 }
 
 resource "aws_spot_instance_request" "bastion" {
-  ami                  = "${data.aws_ami.amazonlinux.id}"
+  ami                  = data.aws_ami.amazonlinux.id
   instance_type        = "t2.small"
-  iam_instance_profile = "${aws_iam_instance_profile.bastion-instance-profile.id}"
-  subnet_id            = "${aws_subnet.public-subnet.id}"
+  iam_instance_profile = aws_iam_instance_profile.bastion-instance-profile.id
+  subnet_id            = aws_subnet.public-subnet.id
 
   vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-ssh.id}",
-    "${aws_security_group.openshift-public-egress.id}",
+    aws_security_group.openshift-vpc.id,
+    aws_security_group.openshift-ssh.id,
+    aws_security_group.openshift-public-egress.id,
   ]
 
-  key_name = "${aws_key_pair.keypair.key_name}"
+  key_name = aws_key_pair.keypair.key_name
 
   //  Use our common tags and add a specific name.
-  tags = "${merge(
+  tags = merge(
     local.common_tags,
     map(
       "Name", "OpenShift Bastion"
     )
-  )}"
+  )
 }
