@@ -4,9 +4,16 @@ variable "region" {
   default = "us-east-1"
 }
 
+variable "aws_access_key" {
+  description = ""
+}
+
+variable "aws_secret_access_key" {
+  description = ""
+}
+
 //  The public key to use for SSH access.
 variable "public_key_path" {
-  default = "~/.ssh/id_rsa.pub"
   default = "~/.ssh/jenkinsOne.pub"
 }
 
@@ -21,7 +28,7 @@ variable "master_instance_type" {
 
 variable "master_spot_price" {
   description = "EC2 instance spot pricing allowance for OpenShift Master Node"
-  default = "0.0975"
+  default = "0.09125"
 }
 
 variable "node_instance_type" {
@@ -31,7 +38,7 @@ variable "node_instance_type" {
 
 variable "node_spot_price" {
   description = "EC2 instance spot pricing allowance for OpenShift Compute Nodes"
-  default = "0.075"
+  default = "0.07"
 }
 
 variable "bastion_instance_type" {

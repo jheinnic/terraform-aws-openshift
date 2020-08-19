@@ -8,7 +8,7 @@ resource "aws_key_pair" "keypair" {
 data "template_file" "setup-master" {
   template = "${file("${path.module}/files/setup-master.sh")}"
   vars = {
-    availability_zone = "${data.aws_availability_zones.azs.names[0]}"
+    availability_zone = "${var.region}"
   }
 }
 
@@ -21,7 +21,7 @@ data "template_file" "setup-master" {
 
 //  Launch configuration for the consul cluster auto-scaling group.
 resource "aws_spot_instance_request" "master" {
-  spot_price                  = var.master_spot_price
+  spot_price                  = "${var.master_spot_price}"
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
@@ -71,14 +71,14 @@ resource "aws_spot_instance_request" "master" {
 data "template_file" "setup-node" {
   template = "${file("${path.module}/files/setup-node.sh")}"
   vars = {
-    availability_zone = "${data.aws_availability_zones.azs.names[0]}"
+    availability_zone = "${var.region}"
   }
 }
 
 //  Create the two nodes. This would be better as a Launch Configuration and
 //  autoscaling group, but I'm keeping it simple...
 resource "aws_spot_instance_request" "node1" {
-  spot_price                  = var.node_spot_price
+  spot_price                  = "${var.node_spot_price}"
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
@@ -124,7 +124,7 @@ resource "aws_spot_instance_request" "node1" {
 }
 
 resource "aws_spot_instance_request" "node2" {
-  spot_price                  = var.node_spot_price
+  spot_price                  = "${var.node_spot_price}"
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
@@ -170,7 +170,7 @@ resource "aws_spot_instance_request" "node2" {
 }
 
 resource "aws_spot_instance_request" "node3" {
-  spot_price                  = var.node_spot_price
+  spot_price                  = "${var.node_spot_price}"
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
