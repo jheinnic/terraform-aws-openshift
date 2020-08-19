@@ -12,6 +12,13 @@ data "template_file" "setup-master" {
   }
 }
 
+// Create Elastic IP for master (Do not create publicly routable master)
+// resource "aws_eip" "master_eip" {
+//   instance = "${aws_spot_instance_request.master.id}"
+//   vpc      = true
+// }
+
+
 //  Launch configuration for the consul cluster auto-scaling group.
 resource "aws_spot_instance_request" "master" {
   spot_price                  = var.master_spot_price
