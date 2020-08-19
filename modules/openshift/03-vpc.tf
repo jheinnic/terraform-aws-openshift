@@ -73,7 +73,7 @@ resource "aws_subnet" "private-subnet" {
   cidr_block              = "${var.private_subnet_cidr}"
   availability_zone       = "${data.aws_availability_zones.azs.names[0]}"
   map_public_ip_on_launch = false
-  depends_on              = [] // "aws_nat_gateway.openshift"]
+  depends_on              = ["aws_nat_gateway.openshift"]
 
   //  Use our common tags and add a specific name.
   tags = "${merge(
@@ -111,6 +111,14 @@ resource "aws_route_table" "private" {
     cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_nat_gateway.openshift.id}"
   }
+
+  //  Use our common tags and add a specific name.
+  tags = "${merge(
+    local.common_tags,
+    map(
+      "Name", "OpenShift Private Route Table"
+    )
+  )}"
 }
 
 //  Now associate the route table with the public subnet - giving
