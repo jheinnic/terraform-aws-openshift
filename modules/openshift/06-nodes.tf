@@ -1,7 +1,7 @@
 //  Create an SSH keypair
 resource "aws_key_pair" "keypair" {
-  key_name   = "${var.key_name}"
-  public_key = "${file(var.public_key_path)}"
+  key_name   = var.key_name
+  public_key = file(var.public_key_path)
 }
 
 //  Create the master userdata script.
@@ -25,17 +25,17 @@ resource "aws_spot_instance_request" "master" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
+  ami                  = data.aws_ami.rhel7_7.id
   # Master nodes require at least 16GB of memory.
-  instance_type        = "${var.master_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-master.rendered}"
+  instance_type        = var.master_instance_type
+  subnet_id            = aws_subnet.private-subnet.id
+  # iam_instance_profile = aws_iam_instance_profile.openshift-instance-profile.id
+  user_data            = data.template_file.setup-master.rendered
 
   vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
+    aws_security_group.openshift-vpc.id,
+    aws_security_group.openshift-public-ingress.id,
+    aws_security_group.openshift-public-egress.id,
   ]
 
   //  We need at least 30GB for OpenShift, let's be greedy...
@@ -52,19 +52,19 @@ resource "aws_spot_instance_request" "master" {
     volume_type = "gp2"
   }
 
-  key_name = "${aws_key_pair.keypair.key_name}"
+  key_name = aws_key_pair.keypair.key_name
 
   provisioner "local-exec" {
     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.master.id} ${aws_spot_instance_request.master.spot_instance_id}"
   }
 
   //  Use our common tags and add a specific name.
-  tags = "${merge(
+  tags = merge(
     local.common_tags,
     map(
       "Name", "OpenShift Master"
     )
-  )}"
+  )
 }
 
 //  Create the node userdata script.
@@ -82,16 +82,16 @@ resource "aws_spot_instance_request" "node1" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
-  instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-node.rendered}"
+  ami                  = data.aws_ami.rhel7_7.id
+  instance_type        = var.node_instance_type
+  subnet_id            = aws_subnet.private-subnet.id
+  # iam_instance_profile = aws_iam_instance_profile.openshift-instance-profile.id
+  user_data            = data.template_file.setup-node.rendered
 
   vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
+    aws_security_group.openshift-vpc.id,
+    aws_security_group.openshift-public-ingress.id,
+    aws_security_group.openshift-public-egress.id,
   ]
 
   //  We need at least 30GB for OpenShift, let's be greedy...
@@ -108,19 +108,19 @@ resource "aws_spot_instance_request" "node1" {
     volume_type = "gp2"
   }
 
-  key_name = "${aws_key_pair.keypair.key_name}"
+  key_name = aws_key_pair.keypair.key_name
 
   provisioner "local-exec" {
     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node1.id} ${aws_spot_instance_request.node1.spot_instance_id}"
   }
 
   //  Use our common tags and add a specific name.
-  tags = "${merge(
+  tags = merge(
     local.common_tags,
     map(
       "Name", "OpenShift Node 1"
     )
-  )}"
+  )
 }
 
 resource "aws_spot_instance_request" "node2" {
@@ -128,16 +128,16 @@ resource "aws_spot_instance_request" "node2" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
-  instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-node.rendered}"
+  ami                  = data.aws_ami.rhel7_7.id
+  instance_type        = var.node_instance_type
+  subnet_id            = aws_subnet.private-subnet.id
+  # iam_instance_profile = aws_iam_instance_profile.openshift-instance-profile.id
+  user_data            = data.template_file.setup-node.rendered
 
   vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
+    aws_security_group.openshift-vpc.id,
+    aws_security_group.openshift-public-ingress.id,
+    aws_security_group.openshift-public-egress.id,
   ]
 
   //  We need at least 30GB for OpenShift, let's be greedy...
@@ -154,19 +154,19 @@ resource "aws_spot_instance_request" "node2" {
     volume_type = "gp2"
   }
 
-  key_name = "${aws_key_pair.keypair.key_name}"
+  key_name = aws_key_pair.keypair.key_name
 
   provisioner "local-exec" {
     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node2.id} ${aws_spot_instance_request.node2.spot_instance_id}"
   }
 
   //  Use our common tags and add a specific name.
-  tags = "${merge(
+  tags = merge(
     local.common_tags,
     map(
       "Name", "OpenShift Node 2"
     )
-  )}"
+  )
 }
 
 resource "aws_spot_instance_request" "node3" {
@@ -174,16 +174,16 @@ resource "aws_spot_instance_request" "node3" {
   spot_type                   = "persistent"
   wait_for_fulfillment        = true
   instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
-  instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-node.rendered}"
+  ami                  = data.aws_ami.rhel7_7.id
+  instance_type        = var.node_instance_type
+  subnet_id            = aws_subnet.private-subnet.id
+  # iam_instance_profile = aws_iam_instance_profile.openshift-instance-profile.id
+  user_data            = data.template_file.setup-node.rendered
 
   vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
+    aws_security_group.openshift-vpc.id,
+    aws_security_group.openshift-public-ingress.id,
+    aws_security_group.openshift-public-egress.id,
   ]
 
   //  We need at least 30GB for OpenShift, let's be greedy...
@@ -200,19 +200,19 @@ resource "aws_spot_instance_request" "node3" {
     volume_type = "gp2"
   }
 
-  key_name = "${aws_key_pair.keypair.key_name}"
+  key_name = aws_key_pair.keypair.key_name
 
   provisioner "local-exec" {
     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node3.id} ${aws_spot_instance_request.node3.spot_instance_id}"
   }
 
   //  Use our common tags and add a specific name.
-  tags = "${merge(
+  tags = merge(
     local.common_tags,
     map(
       "Name", "OpenShift Node 3"
     )
-  )}"
+  )
 }
 
 // resource "aws_spot_instance_request" "node4" {
