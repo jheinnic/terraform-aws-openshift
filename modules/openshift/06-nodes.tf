@@ -215,232 +215,232 @@ resource "aws_spot_instance_request" "node3" {
   )}"
 }
 
-resource "aws_spot_instance_request" "node4" {
-  spot_price                  = var.node_spot_price
-  spot_type                   = "persistent"
-  wait_for_fulfillment        = true
-  instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
-  instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-node.rendered}"
-
-  vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
-  ]
-
-  //  We need at least 30GB for OpenShift, let's be greedy...
-  root_block_device {
-    volume_size = 50
-    volume_type = "gp2"
-  }
-
-  # Storage for Docker, see:
-  # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
-  ebs_block_device {
-    device_name = "/dev/sdf"
-    volume_size = 80
-    volume_type = "gp2"
-  }
-
-  key_name = "${aws_key_pair.keypair.key_name}"
-
-  provisioner "local-exec" {
-    command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node4.id} ${aws_spot_instance_request.node4.spot_instance_id}"
-  }
-
-  //  Use our common tags and add a specific name.
-  tags = "${merge(
-    local.common_tags,
-    map(
-      "Name", "OpenShift Node 4"
-    )
-  )}"
-}
-
-resource "aws_spot_instance_request" "node5" {
-  spot_price                  = var.node_spot_price
-  spot_type                   = "persistent"
-  wait_for_fulfillment        = true
-  instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
-  instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-node.rendered}"
-
-  vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
-  ]
-
-  //  We need at least 30GB for OpenShift, let's be greedy...
-  root_block_device {
-    volume_size = 50
-    volume_type = "gp2"
-  }
-
-  # Storage for Docker, see:
-  # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
-  ebs_block_device {
-    device_name = "/dev/sdf"
-    volume_size = 80
-    volume_type = "gp2"
-  }
-
-  key_name = "${aws_key_pair.keypair.key_name}"
-
-  provisioner "local-exec" {
-    command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node5.id} ${aws_spot_instance_request.node5.spot_instance_id}"
-  }
-
-  //  Use our common tags and add a specific name.
-  tags = "${merge(
-    local.common_tags,
-    map(
-      "Name", "OpenShift Node 5"
-    )
-  )}"
-}
-
-resource "aws_spot_instance_request" "node6" {
-  spot_price                  = var.node_spot_price
-  spot_type                   = "persistent"
-  wait_for_fulfillment        = true
-  instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
-  instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-node.rendered}"
-
-  vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
-  ]
-
-  //  We need at least 30GB for OpenShift, let's be greedy...
-  root_block_device {
-    volume_size = 50
-    volume_type = "gp2"
-  }
-
-  # Storage for Docker, see:
-  # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
-  ebs_block_device {
-    device_name = "/dev/sdf"
-    volume_size = 80
-    volume_type = "gp2"
-  }
-
-  key_name = "${aws_key_pair.keypair.key_name}"
-
-  provisioner "local-exec" {
-    command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node6.id} ${aws_spot_instance_request.node6.spot_instance_id}"
-  }
-
-  //  Use our common tags and add a specific name.
-  tags = "${merge(
-    local.common_tags,
-    map(
-      "Name", "OpenShift Node 6"
-    )
-  )}"
-}
-
-resource "aws_spot_instance_request" "node7" {
-  spot_price                  = var.node_spot_price
-  spot_type                   = "persistent"
-  wait_for_fulfillment        = true
-  instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
-  instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-node.rendered}"
-
-  vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
-  ]
-
-  //  We need at least 30GB for OpenShift, let's be greedy...
-  root_block_device {
-    volume_size = 50
-    volume_type = "gp2"
-  }
-
-  # Storage for Docker, see:
-  # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
-  ebs_block_device {
-    device_name = "/dev/sdf"
-    volume_size = 80
-    volume_type = "gp2"
-  }
-
-  key_name = "${aws_key_pair.keypair.key_name}"
-
-  provisioner "local-exec" {
-    command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node7.id} ${aws_spot_instance_request.node7.spot_instance_id}"
-  }
-
-  //  Use our common tags and add a specific name.
-  tags = "${merge(
-    local.common_tags,
-    map(
-      "Name", "OpenShift Node 7"
-    )
-  )}"
-}
-
-resource "aws_spot_instance_request" "node8" {
-  spot_price                  = var.node_spot_price
-  spot_type                   = "persistent"
-  wait_for_fulfillment        = true
-  instance_interruption_behaviour = "stop"
-  ami                  = "${data.aws_ami.rhel7_7.id}"
-  instance_type        = "${var.node_instance_type}"
-  subnet_id            = "${aws_subnet.private-subnet.id}"
-  # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
-  user_data            = "${data.template_file.setup-node.rendered}"
-
-  vpc_security_group_ids = [
-    "${aws_security_group.openshift-vpc.id}",
-    "${aws_security_group.openshift-public-ingress.id}",
-    "${aws_security_group.openshift-public-egress.id}",
-  ]
-
-  //  We need at least 30GB for OpenShift, let's be greedy...
-  root_block_device {
-    volume_size = 50
-    volume_type = "gp2"
-  }
-
-  # Storage for Docker, see:
-  # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
-  ebs_block_device {
-    device_name = "/dev/sdf"
-    volume_size = 80
-    volume_type = "gp2"
-  }
-
-  key_name = "${aws_key_pair.keypair.key_name}"
-
-  provisioner "local-exec" {
-    command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node8.id} ${aws_spot_instance_request.node8.spot_instance_id}"
-  }
-
-  //  Use our common tags and add a specific name.
-  tags = "${merge(
-    local.common_tags,
-    map(
-      "Name", "OpenShift Node 8"
-    )
-  )}"
-}
+// resource "aws_spot_instance_request" "node4" {
+//   spot_price                  = "${var.node_spot_price}"
+//   spot_type                   = "persistent"
+//   wait_for_fulfillment        = true
+//   instance_interruption_behaviour = "stop"
+//   ami                  = "${data.aws_ami.rhel7_7.id}"
+//   instance_type        = "${var.node_instance_type}"
+//   subnet_id            = "${aws_subnet.private-subnet.id}"
+//   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
+//   user_data            = "${data.template_file.setup-node.rendered}"
+// 
+//   vpc_security_group_ids = [
+//     "${aws_security_group.openshift-vpc.id}",
+//     "${aws_security_group.openshift-public-ingress.id}",
+//     "${aws_security_group.openshift-public-egress.id}",
+//   ]
+// 
+//   //  We need at least 30GB for OpenShift, let's be greedy...
+//   root_block_device {
+//     volume_size = 50
+//     volume_type = "gp2"
+//   }
+// 
+//   # Storage for Docker, see:
+//   # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
+//   ebs_block_device {
+//     device_name = "/dev/sdf"
+//     volume_size = 80
+//     volume_type = "gp2"
+//   }
+// 
+//   key_name = "${aws_key_pair.keypair.key_name}"
+// 
+//   provisioner "local-exec" {
+//     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node4.id} ${aws_spot_instance_request.node4.spot_instance_id}"
+//   }
+// 
+//   //  Use our common tags and add a specific name.
+//   tags = "${merge(
+//     local.common_tags,
+//     map(
+//       "Name", "OpenShift Node 4"
+//     )
+//   )}"
+// }
+// 
+// resource "aws_spot_instance_request" "node5" {
+//   spot_price                  = "${var.node_spot_price}"
+//   spot_type                   = "persistent"
+//   wait_for_fulfillment        = true
+//   instance_interruption_behaviour = "stop"
+//   ami                  = "${data.aws_ami.rhel7_7.id}"
+//   instance_type        = "${var.node_instance_type}"
+//   subnet_id            = "${aws_subnet.private-subnet.id}"
+//   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
+//   user_data            = "${data.template_file.setup-node.rendered}"
+// 
+//   vpc_security_group_ids = [
+//     "${aws_security_group.openshift-vpc.id}",
+//     "${aws_security_group.openshift-public-ingress.id}",
+//     "${aws_security_group.openshift-public-egress.id}",
+//   ]
+// 
+//   //  We need at least 30GB for OpenShift, let's be greedy...
+//   root_block_device {
+//     volume_size = 50
+//     volume_type = "gp2"
+//   }
+// 
+//   # Storage for Docker, see:
+//   # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
+//   ebs_block_device {
+//     device_name = "/dev/sdf"
+//     volume_size = 80
+//     volume_type = "gp2"
+//   }
+// 
+//   key_name = "${aws_key_pair.keypair.key_name}"
+// 
+//   provisioner "local-exec" {
+//     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node5.id} ${aws_spot_instance_request.node5.spot_instance_id}"
+//   }
+// 
+//   //  Use our common tags and add a specific name.
+//   tags = "${merge(
+//     local.common_tags,
+//     map(
+//       "Name", "OpenShift Node 5"
+//     )
+//   )}"
+// }
+// 
+// resource "aws_spot_instance_request" "node6" {
+//   spot_price                  = "${var.node_spot_price}"
+//   spot_type                   = "persistent"
+//   wait_for_fulfillment        = true
+//   instance_interruption_behaviour = "stop"
+//   ami                  = "${data.aws_ami.rhel7_7.id}"
+//   instance_type        = "${var.node_instance_type}"
+//   subnet_id            = "${aws_subnet.private-subnet.id}"
+//   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
+//   user_data            = "${data.template_file.setup-node.rendered}"
+// 
+//   vpc_security_group_ids = [
+//     "${aws_security_group.openshift-vpc.id}",
+//     "${aws_security_group.openshift-public-ingress.id}",
+//     "${aws_security_group.openshift-public-egress.id}",
+//   ]
+// 
+//   //  We need at least 30GB for OpenShift, let's be greedy...
+//   root_block_device {
+//     volume_size = 50
+//     volume_type = "gp2"
+//   }
+// 
+//   # Storage for Docker, see:
+//   # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
+//   ebs_block_device {
+//     device_name = "/dev/sdf"
+//     volume_size = 80
+//     volume_type = "gp2"
+//   }
+// 
+//   key_name = "${aws_key_pair.keypair.key_name}"
+// 
+//   provisioner "local-exec" {
+//     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node6.id} ${aws_spot_instance_request.node6.spot_instance_id}"
+//   }
+// 
+//   //  Use our common tags and add a specific name.
+//   tags = "${merge(
+//     local.common_tags,
+//     map(
+//       "Name", "OpenShift Node 6"
+//     )
+//   )}"
+// }
+// 
+// resource "aws_spot_instance_request" "node7" {
+//   spot_price                  = "${var.node_spot_price}"
+//   spot_type                   = "persistent"
+//   wait_for_fulfillment        = true
+//   instance_interruption_behaviour = "stop"
+//   ami                  = "${data.aws_ami.rhel7_7.id}"
+//   instance_type        = "${var.node_instance_type}"
+//   subnet_id            = "${aws_subnet.private-subnet.id}"
+//   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
+//   user_data            = "${data.template_file.setup-node.rendered}"
+// 
+//   vpc_security_group_ids = [
+//     "${aws_security_group.openshift-vpc.id}",
+//     "${aws_security_group.openshift-public-ingress.id}",
+//     "${aws_security_group.openshift-public-egress.id}",
+//   ]
+// 
+//   //  We need at least 30GB for OpenShift, let's be greedy...
+//   root_block_device {
+//     volume_size = 50
+//     volume_type = "gp2"
+//   }
+// 
+//   # Storage for Docker, see:
+//   # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
+//   ebs_block_device {
+//     device_name = "/dev/sdf"
+//     volume_size = 80
+//     volume_type = "gp2"
+//   }
+// 
+//   key_name = "${aws_key_pair.keypair.key_name}"
+// 
+//   provisioner "local-exec" {
+//     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node7.id} ${aws_spot_instance_request.node7.spot_instance_id}"
+//   }
+// 
+//   //  Use our common tags and add a specific name.
+//   tags = "${merge(
+//     local.common_tags,
+//     map(
+//       "Name", "OpenShift Node 7"
+//     )
+//   )}"
+// }
+// 
+// resource "aws_spot_instance_request" "node8" {
+//   spot_price                  = "${var.node_spot_price}"
+//   spot_type                   = "persistent"
+//   wait_for_fulfillment        = true
+//   instance_interruption_behaviour = "stop"
+//   ami                  = "${data.aws_ami.rhel7_7.id}"
+//   instance_type        = "${var.node_instance_type}"
+//   subnet_id            = "${aws_subnet.private-subnet.id}"
+//   # iam_instance_profile = "${aws_iam_instance_profile.openshift-instance-profile.id}"
+//   user_data            = "${data.template_file.setup-node.rendered}"
+// 
+//   vpc_security_group_ids = [
+//     "${aws_security_group.openshift-vpc.id}",
+//     "${aws_security_group.openshift-public-ingress.id}",
+//     "${aws_security_group.openshift-public-egress.id}",
+//   ]
+// 
+//   //  We need at least 30GB for OpenShift, let's be greedy...
+//   root_block_device {
+//     volume_size = 50
+//     volume_type = "gp2"
+//   }
+// 
+//   # Storage for Docker, see:
+//   # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
+//   ebs_block_device {
+//     device_name = "/dev/sdf"
+//     volume_size = 80
+//     volume_type = "gp2"
+//   }
+// 
+//   key_name = "${aws_key_pair.keypair.key_name}"
+// 
+//   provisioner "local-exec" {
+//     command = "./update_spotinstance_tags.sh ${var.region} ${aws_spot_instance_request.node8.id} ${aws_spot_instance_request.node8.spot_instance_id}"
+//   }
+// 
+//   //  Use our common tags and add a specific name.
+//   tags = "${merge(
+//     local.common_tags,
+//     map(
+//       "Name", "OpenShift Node 8"
+//     )
+//   )}"
+// }
